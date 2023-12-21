@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Conversation;
+use App\Models\Message;
+use App\Events\NewMessage;
+class MessageController extends Controller
+{
+    public function index(Conversation $conversation)
+    {
+        $messages = $conversation->messages;
+        return response()->json($messages);
+    }
+
+    public function store(Request $request, Conversation $conversation)
+    {
+        $user_id = auth()->user()->id;
+
+        $message = Message::create([
+            'user_id' => $user_id,
+            'conversation_id' => $request->input('conversation_id'),
+            'content' => $request->input('content'),
+        ]);
+
+        broadcast(new NewMessage($message))->toOthers();
+
+        return response()->json($message, 201);
+    }
+
+    // Additional methods for updating and deleting messages
+}
