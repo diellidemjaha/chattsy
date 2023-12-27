@@ -42,7 +42,11 @@ class AuthController extends Controller
 
       
 
-        return response()->json(['message' => 'Login successful', 'token' => $token]);
+        return response()->json([
+            'message' => 'Login successful', 
+            'token' => $token,
+            'user_id' => $user->id,
+        ]);
     }
 
     /**
@@ -53,8 +57,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Logout successful']);
+        if ($request->user()) {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logout successful']);
+        }
+    
+        return response()->json(['message' => 'User not authenticated'], 401);
     }
 }

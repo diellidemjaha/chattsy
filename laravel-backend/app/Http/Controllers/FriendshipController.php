@@ -29,6 +29,7 @@ class FriendshipController extends Controller
         Friendship::create([
             'user1_id' => $senderId,
             'user2_id' => $receiverId,
+            'status' => 'pending',
         ]);
 
         return response()->json(['message' => 'Friendship request sent.']);
@@ -38,27 +39,21 @@ class FriendshipController extends Controller
     {
         $receiverId = auth()->user()->id;
         $senderId = $request->input('sender_id');
-
+    
         // Find the friendship request
         $friendship = Friendship::where('user1_id', $senderId)
             ->where('user2_id', $receiverId)
             ->orWhere('user1_id', $receiverId)
             ->where('user2_id', $senderId)
             ->first();
-
+    
         if (!$friendship) {
             return response()->json(['message' => 'Friendship request not found.'], 404);
         }
-
-        // Remove the friendship request
-        $friendship->delete();
-
-        // Create a friendship record
-        Friendship::create([
-            'user1_id' => $senderId,
-            'user2_id' => $receiverId,
-        ]);
-
+    
+        // Update the status to 'accepted'
+        $friendship->update(['status' => 'accepted']);
+    
         return response()->json(['message' => 'Friendship request accepted.']);
     }
 
@@ -66,12 +61,34 @@ class FriendshipController extends Controller
     {
         $userId = auth()->user()->id;
 
-        // Fetch user's friend list
+        // Fetch user's accepted friend list excluding the authenticated user
         $friendList = User::whereHas('friends', function ($query) use ($userId) {
-            $query->where('user1_id', $userId)
-                ->orWhere('user2_id', $userId);
-        })->get();
-
+            $query->where(function ($subQuery) use ($userId) {
+                $subQuery->where('user1_id', $userId)
+                    ->orWhere('user2_id', $userId);
+            })->where('status', 'accepted');
+        })->where('id', '!=', $userId)->get(); // Exclude the authenticated user
+    
         return response()->json($friendList);
     }
+    public function getFriendRequests()
+    {
+        $userId = auth()->user()->id;
+
+        // Fetch user's friend requests with sender information
+        $friendRequests = Friendship::where('user2_id', $userId)
+            ->with('sender') // Eager load sender relationship
+            ->get();
+
+        // Transform the response to include sender names
+        $formattedRequests = $friendRequests->map(function ($request) {
+            return [
+                'sender_id' => $request->user1_id,
+                'sender_name' => $request->sender->name, // Accessing sender's name from the relationship
+            ];
+        });
+
+        return response()->json($formattedRequests);
+    }
+
 }

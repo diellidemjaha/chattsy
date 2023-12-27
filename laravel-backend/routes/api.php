@@ -34,10 +34,26 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/friendships/send-request', [FriendshipController::class, 'sendRequest']);
     Route::post('/friendships/accept-request', [FriendshipController::class, 'acceptRequest']);
     Route::get('/friendships/list', [FriendshipController::class, 'getFriendList']);
+    Route::get('/friendships/requests', [FriendshipController::class, 'getFriendRequests']);
+    Route::post('/friendships/accept-request', [FriendshipController::class, 'acceptRequest']);
+    // Route::get('/users/not-friends', [UserController::class, 'getNotFriends']);
+    // Route::get('/users/get-all-users', [UserController::class, 'index']);
+
+    Route::get('/conversations', [ConversationController::class, 'index']);
+    Route::get('/conversations/{conversation}/messages', [MessageController::class, 'index']);
+    Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store']);
+    // Route::get('/conversations/{conversation}/messages', [MessageController::class, 'receive']);
+
+
 });
 
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+// Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/user', [AuthController::class, 'user']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    // Other protected routes...
+});

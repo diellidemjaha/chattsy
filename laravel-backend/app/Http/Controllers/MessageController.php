@@ -10,6 +10,10 @@ class MessageController extends Controller
 {
     public function index(Conversation $conversation)
     {
+        if (!$conversation) {
+            // Handle the case where the conversation is not found
+            return response()->json(['error' => 'Conversation not found.'], 404);
+        }
         $messages = $conversation->messages;
         return response()->json($messages);
     }
@@ -28,6 +32,11 @@ class MessageController extends Controller
 
         return response()->json($message, 201);
     }
+
+    // public function receive(Request $request)
+    // {
+    //     return response()->json(['message' => $request->get('message')]);
+    // }
 
     // Additional methods for updating and deleting messages
 }
