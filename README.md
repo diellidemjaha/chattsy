@@ -1,4 +1,4 @@
-# Chatsy
+# Chattsy
 
 Welcome to Chatsy, a real-time chat room application built with Laravel, React, and MySQL.
 
