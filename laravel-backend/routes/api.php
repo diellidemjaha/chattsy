@@ -7,6 +7,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::get('/searchusers', [SearchController::class, 'FindByName']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('users', UserController::class);
+    // Route::get('/users/search', [UserController::class, 'search']);
+    // routes/web.php
+
+
     Route::resource('conversations', ConversationController::class);
     Route::resource('messages', MessageController::class);
 

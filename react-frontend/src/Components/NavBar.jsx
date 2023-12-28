@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import SearchResults from './SearchResults'; 
 
 const NavBar = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.get(`http://localhost:8000/api/searchusers?search=${searchTerm}`);
+            setSearchResults(response.data.users);
+        } catch (error) {
+            console.error('Error searching users:', error);
+        }
+    };
+
+
 
   let hasToken = localStorage.getItem('token');
 
@@ -56,11 +71,16 @@ const NavBar = () => {
             <p> </p>
             // </>
             )}
+          <div className="nav-item">
           
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search users..." aria-label="Search" />
+          <form  onSubmit={handleSearch} className="d-flex" role="search">
+            <input className="form-control me-2" type="search" placeholder="Search users..." aria-label="Search" name="search" value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)} />
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
+          </div>
+          <div className="nav-item">
+          <SearchResults style={{zIndex:'999999'}} users={searchResults} />
+          </div>
         </div>
       </div>
     </nav>

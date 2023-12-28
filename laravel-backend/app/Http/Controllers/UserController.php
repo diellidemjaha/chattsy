@@ -19,4 +19,13 @@ class UserController extends Controller
     {
         return response()->json($user);
     }
+    public function search(Request $request)
+{
+    $keyword = $request->input('search');
+    
+    // Perform a search query based on your user model
+    $users = User::where('name', 'like', "%$keyword%")->get();
+
+    return response()->json(['users' => $users]);
+}
 }
