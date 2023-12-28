@@ -1,6 +1,6 @@
-# Chatsy
+# Chattsy
 
-Welcome to Chatsy, a real-time chat room application built with Laravel, React, and MySQL.
+Welcome to Chattsy, a real-time chat room application built with Laravel, React, and MySQL.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -12,7 +12,7 @@ Welcome to Chatsy, a real-time chat room application built with Laravel, React, 
 - [License](#license)
 
 ## Introduction
-Chatsy is a dynamic chat room application designed to provide users with a seamless and interactive chatting experience. Leveraging Laravel for the backend, React for the frontend, and MySQL for data storage, Chatsy aims to be a versatile solution for real-time communication.
+Chattsy is a dynamic chat room application designed to provide users with a seamless and interactive chatting experience. Leveraging Laravel for the backend, React for the frontend, and MySQL for data storage, Chattsy aims to be a versatile solution for real-time communication.
 
 ## Features
 - 🛡 **Secure Authentication:** Utilizing Laravel Sanctum for robust user authentication.
