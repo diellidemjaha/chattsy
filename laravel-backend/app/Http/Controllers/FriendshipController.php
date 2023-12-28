@@ -9,31 +9,34 @@ use App\Models\User;
 
 class FriendshipController extends Controller
 {
+ 
     public function sendRequest(Request $request)
-    {
-        $senderId = auth()->user()->id;
-        $receiverId = $request->input('receiver_id');
+{
+    $senderId = auth()->user()->id;
+    $receiverId = $request->input('receiver_id');
 
-        // Check if a friendship request already exists
-        $existingRequest = Friendship::where('user1_id', $senderId)
-            ->where('user2_id', $receiverId)
-            ->orWhere('user1_id', $receiverId)
-            ->orWhere('user2_id', $senderId)
-            ->first();
+    // Check if a friendship request already exists
+    $existingRequest = Friendship::where(function ($query) use ($senderId, $receiverId) {
+        $query->where('user1_id', $senderId)
+              ->where('user2_id', $receiverId);
+    })->orWhere(function ($query) use ($senderId, $receiverId) {
+        $query->where('user1_id', $receiverId)
+              ->where('user2_id', $senderId);
+    })->first();
 
-        if ($existingRequest) {
-            return response()->json(['message' => 'Friendship request already sent.'], 422);
-        }
-
-        // Create a new friendship request
-        Friendship::create([
-            'user1_id' => $senderId,
-            'user2_id' => $receiverId,
-            'status' => 'pending',
-        ]);
-
-        return response()->json(['message' => 'Friendship request sent.']);
+    if ($existingRequest) {
+        return response()->json(['message' => 'Friendship request already sent.'], 422);
     }
+
+    // Create a new friendship request
+    Friendship::create([
+        'user1_id' => $senderId,
+        'user2_id' => $receiverId,
+        'status' => 'pending',
+    ]);
+
+    return response()->json(['message' => 'Friendship request sent.']);
+}
 
     public function acceptRequest(Request $request)
     {
