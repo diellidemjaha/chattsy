@@ -25,6 +25,7 @@ const Chat = () => {
       });
   
       console.log('Messages fetched successfully:', response.data);
+      setMessages(response.data.messages);
       // setMessages(response.data);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -65,62 +66,6 @@ const Chat = () => {
     }
   };
 
-
-  // useEffect(() => {
-  //   // Fetch conversations on component mount
-  //   fetchFriends();
-  //   fetchConversations();
-  //   fetchMessages(selectedConversation);
-  
-  //   Pusher.logToConsole = true;
-
-  //   var pusher = new Pusher('1d0f28c9248cd3fb0d26', {
-  //     cluster: 'eu'
-  //   });
-
-  //   var channel = pusher.subscribe(`chat.${selectedConversation}`);
-  //   channel.bind('new-message', function(data) {
-  //     // alert(JSON.stringify(data));
-  //     allMessages.push(data);
-  //     setMessages(allMessages);
-
-  //   });
-  
-  //   // console.log('Echo connection state:', echo.connection.state);
-
-  //   // echo.connection.bind('connected', () => {
-  //     // console.log('Echo connected!');
-  //   // });
-    
-  //   // echo.connection.bind('failed', (error) => {
-  //     // console.error('Echo connection failed:', error);
-  //     // Subscribe to the chat channel when a conversation is selected
-  //     if (selectedConversation) {
-  //       const channel = pusher.channel(`chat.${selectedConversation}`);
-  //       console.log('Channel object:', channel);
-  //       console.log('Conversation-id:', selectedConversation);
-        
-  //       // channel.listen('new-message', (event) => {
-  //       //   // Handle the new message event and update the UI
-  //       //   fetchMessages(selectedConversation);
-  //       // });
-  //       // console.log('New message received:', event);
-  //     }
-  //   // });
-  
-  //   return () => {
-  //     // Unsubscribe from the channel when the component unmounts
-  //     if (selectedConversation) {
-  //       const echo = new Pusher("1d0f28c9248cd3fb0d26", {
-  //         cluster: "eu",
-  //         encrypted: true,
-          
-  //       });
-  //         console.log('Echo object:', echo);
-  //         echo.leaveChannel(`chat.${selectedConversation}`);
-  //       }
-  //     };
-  //   }, [selectedConversation]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -223,6 +168,16 @@ const Chat = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    // Check if the pressed key is "Enter" (key code 13)
+    if (e.key === 'Enter') {
+        // Prevent the default behavior (adding a new line)
+        e.preventDefault();
+        // Call the handleSendMessage function
+        handleSendMessage();
+    }
+};
+
  
 
   return (
@@ -233,19 +188,19 @@ const Chat = () => {
           <div className="row">
             {/* Member List */}
             <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-              <h5 className="font-weight-bold mb-3 text-center text-lg-start">Member</h5>
+              <h5 className="font-weight-bold mb-3 text-center text-lg-start">Friends</h5>
               <div className="card">
                 <div className="card-body">
                   <ul className="list-unstyled mb-0">
                     {friends.map((friend) => (
                       <li key={friend.id} className="p-2 border-bottom" style={{ backgroundColor: '#eee' }}>
                         <button
-                          onClick={() => handleFriendClick(friend.id)}
+                          onClick={() => handleFriendClick(friend.friend_id)}
                           className="d-flex justify-content-between"
                         >
                           <div className="d-flex flex-row">
                             <div className="pt-1">
-                              <p className="fw-bold mb-0">{friend.name}</p>
+                              <p className="fw-bold mb-0">{friend.friend_name}</p>
                               {/* Add other details you want to display */}
                             </div>
                           </div>
@@ -265,8 +220,8 @@ const Chat = () => {
                     {/* Add your message avatar rendering logic here */}
                     <div className="card">
                       <div className="card-header d-flex justify-content-between p-3">
-                        <p className="fw-bold mb-0">{message.user_name}</p>
-                        <p className="text-muted small mb-0"><i className="far fa-clock"></i> {message.created_at}</p>
+                        <p className="fw-bold mb-0">{message?.user?.name}</p>
+                        {/* <p className="text-muted small mb-0"> {message.created_at}</p> */}
                       </div>
                       <div className="card-body">
                         <p className="mb-0">{message.content}</p>
@@ -285,6 +240,7 @@ const Chat = () => {
                     rows="4"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => handleKeyPress(e)}
                   ></textarea>
                   <label className="form-label" htmlFor="textAreaExample2">Message</label>
                 </div>

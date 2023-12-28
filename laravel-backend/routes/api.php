@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConversationController;
@@ -24,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/hello-world', [TestController::class, 'test']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('users', UserController::class);
@@ -35,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/friendships/accept-request', [FriendshipController::class, 'acceptRequest']);
     Route::get('/friendships/list', [FriendshipController::class, 'getFriendList']);
     Route::get('/friendships/requests', [FriendshipController::class, 'getFriendRequests']);
-    Route::post('/friendships/accept-request', [FriendshipController::class, 'acceptRequest']);
+    // Route::post('/friendships/accept-request', [FriendshipController::class, 'acceptRequest']);
     // Route::get('/users/not-friends', [UserController::class, 'getNotFriends']);
     // Route::get('/users/get-all-users', [UserController::class, 'index']);
 

@@ -1,6 +1,7 @@
 // FriendRequest.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NavBar from './NavBar';
 
 const FriendRequest = () => {
   const [users, setUsers] = useState([]);
@@ -39,6 +40,9 @@ const FriendRequest = () => {
   };
 
   return (
+    <div>
+
+    <NavBar />
     <div className="container mt-5">
       <h2>All Users</h2>
       {users.map((user) => (
@@ -48,13 +52,14 @@ const FriendRequest = () => {
             <button
               className="btn btn-primary float-end"
               onClick={() => handleAddFriend(user.id)}
-            >
+              >
               Add Friend
             </button>
           </div>
         </div>
       ))}
     </div>
+      </div>
   );
 };
 

@@ -58,19 +58,28 @@ class FriendshipController extends Controller
     }
 
     public function getFriendList()
-    {
-        $userId = auth()->user()->id;
+{
+    $userId = auth()->user()->id;
 
-        // Fetch user's accepted friend list excluding the authenticated user
-        $friendList = User::whereHas('friends', function ($query) use ($userId) {
-            $query->where(function ($subQuery) use ($userId) {
-                $subQuery->where('user1_id', $userId)
-                    ->orWhere('user2_id', $userId);
-            })->where('status', 'accepted');
-        })->where('id', '!=', $userId)->get(); // Exclude the authenticated user
-    
-        return response()->json($friendList);
-    }
+    // Fetch user's accepted friend list excluding the authenticated user
+    $friendList = Friendship::where(function ($query) use ($userId) {
+        $query->where('user1_id', $userId)
+            ->orWhere('user2_id', $userId);
+    })
+    ->where('status', 'accepted')
+    ->with(['sender', 'receiver'])
+    ->get();
+
+    // Transform the response to include sender and receiver names
+    $formattedFriendList = $friendList->map(function ($friendship) use ($userId) {
+        return [
+            'friend_id' => $friendship->user1_id !== $userId ? $friendship->user1_id : $friendship->user2_id,
+            'friend_name' => $friendship->user1_id !== $userId ? $friendship->sender->name : $friendship->receiver->name,
+        ];
+    });
+
+    return response()->json($formattedFriendList);
+}
     public function getFriendRequests()
     {
         $userId = auth()->user()->id;
