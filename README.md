@@ -1,6 +1,6 @@
 # Chattsy
 
-Welcome to Chattsy, a real-time chat room application built with Laravel, React, and MySQL.
+Welcome to Chattsy, a real-time chat room application built with Laravel, React, and MySQL.Laravel Sanctum, Pusher and pusher-js were utilized also for this app
 
 ![Example screenshot 1](chattsy1.jpg)
 ![Example screenshot 2](chattsy2.jpg)
