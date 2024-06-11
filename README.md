@@ -32,14 +32,16 @@ Chattsy is a dynamic chat room application designed to provide users with a seam
 - [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
 - [Laravel Pusher](https://pusher.com/docs/channels)
 - [pusher-js]
-## Installation
-1. Clone the repository: `git clone https://github.com/your-username/chatsy.git`
-2. Navigate to the project folder: `cd chatsy`
-3. Install dependencies for Laravel: `composer install`
-4. Install dependencies for React: `npm install`
-5. Set up your database and update the `.env` file with the necessary configurations.
-6. Run migrations: `php artisan migrate`
-7. Start the development server: `php artisan serve` for Laravel and `npm start` for React.
+
+> [!TIP]
+> Installation
+> 1. Clone the repository: `git clone https://github.com/your-username/chatsy.git`
+> 2. Navigate to the project folder: `cd chatsy`
+> 3. Install dependencies for Laravel: `composer install`
+> 4. Install dependencies for React: `npm install`
+> 5. Set up your database and update the `.env` file with the necessary configurations.
+> 6. Run migrations: `php artisan migrate`
+> 7. Start the development server: `php artisan serve` for Laravel and `npm start` for React.
 
 ## Usage
 1. Register or log in to explore the chat rooms.
