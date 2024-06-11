@@ -24,7 +24,6 @@ const Login = () => {
     
           if (response.status === 200) {
             console.log('Login successful');
-            // console.log('Response data:', response.data);
     
     
             const token = response.data.token;
@@ -34,68 +33,13 @@ const Login = () => {
             localStorage.setItem('token', token);
             localStorage.setItem('user_id', userId);
     
-            // navigate('/chat');
             window.location.href="/chat"
-            // let timerInterval;
-            // Swal.fire({
-            //   title: "Authenticated !",
-            //   html: "Login Success !",
-            //   timer: 2000,
-            //   timerProgressBar: true,
-            //   didOpen: () => {
-            //     Swal.showLoading();
-            //     const timer = Swal.getPopup().querySelector("b");
-            //     timerInterval = setInterval(() => {
-            //       timer.textContent = `${Swal.getTimerLeft()}`;
-            //     }, 100);
-            //   },
-            //   willClose: () => {
-            //     clearInterval(timerInterval);
-            //   }
-            // }).then((result) => {
-            //   /* Read more about handling dismissals below */
-            //   if (result.dismiss === Swal.DismissReason.timer) {
-            //     console.log("I was closed by the timer");
-            //   }
-            // });
     
           }
         } catch (error) {
           console.error('Login error:', error);
           console.log('Error response data:', error.response?.data);
-        //   let timerInterval;
-        //   Swal.fire({
-        //     title: "OOPS !",
-        //     html: "Email or Password incorrect !",
-        //     timer: 2000,
-        //     timerProgressBar: true,
-        //     didOpen: () => {
-        //       Swal.showLoading();
-        //       const timer = Swal.getPopup().querySelector("b");
-        //       timerInterval = setInterval(() => {
-        //         timer.textContent = `${Swal.getTimerLeft()}`;
-        //       }, 100);
-        //     },
-        //     willClose: () => {
-        //       clearInterval(timerInterval);
-        //     }
-        //   }).then((result) => {
-        //     /* Read more about handling dismissals below */
-        //     if (result.dismiss === Swal.DismissReason.timer) {
-        //       console.log("I was closed by the timer");
-        //     }
-        //   });
-        // }
       }};
-
-      // useEffect(() => {
-      //   // This effect will run after the component renders
-      //   // Check if the user is authenticated and then navigate
-      //   const isAuthenticated = localStorage.getItem('token');
-      //   if (isAuthenticated) {
-      //     navigate('/chat');
-      //   }
-      // }, [navigate]);
 
   return (
     <section className="vh-100 bg-secondary">
