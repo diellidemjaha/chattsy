@@ -33,7 +33,6 @@ const NavBar = () => {
 
         localStorage.clear()
 
-        //   navigate('/login');
         window.location.href = '/login';
 
       }
@@ -62,14 +61,10 @@ const NavBar = () => {
             </li>
           </ul>
           {hasToken ? (
-            // <>
               <button type="button" className="btn btn-outline-light m-2" onClick={() => handleLogout()}>Sign out</button>
           
-            // </>
            ) : (
-            // <>
             <p> </p>
-            // </>
             )}
           <div className="nav-item">
           
