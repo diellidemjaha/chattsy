@@ -21,7 +21,7 @@ const FriendRequest = () => {
     };
 
     fetchAllUsers();
-  }, []); // Run only on component mount
+  }, []); 
 
   const handleAddFriend = async (userId) => {
     try {
@@ -29,8 +29,6 @@ const FriendRequest = () => {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       };
   
-      // Implement your logic to send a friend request
-      // You can use the existing method or create a new one in FriendshipController
       await axios.post('http://localhost:8000/api/friendships/send-request', { receiver_id: userId }, { headers });
       
       alert('Friend request sent successfully!');
