@@ -3,34 +3,18 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import UserList from './UserList';
 
 const Friends = () => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [friendList, setFriendList] = useState([]);
   const [showRequests, setShowRequests] = useState(false);
-  // const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // Fetch friend requests and friend list on component mount
     fetchFriendRequests();
     fetchFriendList();
-    // fetchUsers();
-  }, []); // Empty dependency array ensures this effect runs once on mount
+  }, []);
 
-
-  // const fetchUsers = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:8000/api/users/not-friends', {
-  //       headers: {
-  //         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     });
-  //     setUsers(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching users:', error);
-  //   }
-  // };
 
   const fetchFriendRequests = async () => {
     const headers = {
@@ -62,8 +46,10 @@ const Friends = () => {
     };
     try {
       await axios.post('http://localhost:8000/api/friendships/accept-request', { sender_id: senderId }, {headers: headers});
+      
       // Remove the accepted friend request from the list
       setFriendRequests((prevRequests) => prevRequests.filter((request) => request.sender_id !== senderId));
+      
       // Fetch the updated friend list
       fetchFriendList();
     } catch (error) {
@@ -76,23 +62,11 @@ const Friends = () => {
       await axios.post('http://localhost:8000/api/friendships/send-request', {
         receiver_id: userId,
       });
-      // You can update the UI to show a success message or update the list of friend requests
       alert('Friend request sent successfully!');
     } catch (error) {
       console.error('Error sending friend request:', error);
     }
   };
-
-  // const handleSendRequest = async () => {
-  //   // Assuming you have a form to input the receiver's ID
-  //   const receiverId = prompt('Enter the ID of the user you want to send a friend request to:');
-  //   try {
-  //     await axios.post('http://localhost:8000/api/friendships/send-request', { receiver_id: receiverId });
-  //     // You can update the UI to show a success message or update the list of friend requests
-  //   } catch (error) {
-  //     console.error('Error sending friend request:', error);
-  //   }
-  // };
 
   return (
     <div>
