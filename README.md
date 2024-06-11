@@ -34,7 +34,7 @@ Chattsy is a dynamic chat room application designed to provide users with a seam
 - [pusher-js]
 
 > [!TIP]
-> Installation
+> ## Installation
 > 1. Clone the repository: `git clone https://github.com/your-username/chatsy.git`
 > 2. Navigate to the project folder: `cd chatsy`
 > 3. Install dependencies for Laravel: `composer install`
