@@ -12,7 +12,7 @@ class MessageController extends Controller
     public function index(Conversation $conversation)
 {
     $messages = Message::where('conversation_id', $conversation->id)
-        ->with('user') // Assuming the user relationship is defined in the Message model
+        ->with('user')
         ->get();
 
     return response()->json(['messages' => $messages]);
